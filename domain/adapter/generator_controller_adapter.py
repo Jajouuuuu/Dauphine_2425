@@ -12,3 +12,4 @@ class GeneratorControllerAdapter(GeneratorControllerPort):
         
     def generate_message(self, prompt: str) -> str:
         return self.text_generation_service.get_generated_text(prompt)
+    

@@ -12,7 +12,7 @@ class CohereTextGenerator():
 
     def generate_text(self, prompt: str) -> str:
         response = self.client.chat(
-            # chat_history=chat_history,
+            #chat_history=self.chat_history,
             message=prompt
         )
         return response.text
