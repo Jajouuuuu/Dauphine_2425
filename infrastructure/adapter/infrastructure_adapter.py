@@ -1,6 +1,3 @@
-import os
-from dotenv import load_dotenv
-
 from domain.model.chat_history import ChatHistory
 from domain.model.role_message import RoleMessage
 from domain.port.driven.text_generator_port import TextGeneratorPort
@@ -8,10 +5,6 @@ from domain.port.driven.chat_history_persistence_port import ChatHistoryPersiste
 
 from infrastructure.history.json_history_repository import JsonHistoryRepository
 from infrastructure.text_generator.cohere_text_generator import CohereTextGenerator
-
-# Charger les variables d'environnement depuis un fichier .env
-load_dotenv()
-COHERE_API_KEY = os.environ.get('COHERE_API_KEY')  # Récupère la clé API Cohere
 
 class InfrastructureAdapter(TextGeneratorPort, ChatHistoryPersistencePort):
     def __init__(self, 

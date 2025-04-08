@@ -1,5 +1,4 @@
-import os
-from dotenv import load_dotenv
+from env_config import EnvConfig
 
 from domain.port.impl.generator_controller_adapter import GeneratorControllerAdapter
 from domain.service.text_generation_service import TextGenerationService
@@ -12,16 +11,11 @@ from infrastructure.text_generator.cohere_text_generator import CohereTextGenera
 
 from rest.endpoint.generator_rest_adapter import GeneratorRestAdapter
 
-load_dotenv()
-
 def create_generator_rest_adapter():
     # Initialiser les services de persistance
     cohere_text_generator = CohereTextGenerator()
     
-    json_history_repository_path = os.getenv('JSON_HISTORY_REPOSITORY')
-    if not json_history_repository_path:
-        raise ValueError("JSON_HISTORY_REPOSITORY environment variable is not set.")
-    json_history_repository = JsonHistoryRepository(json_history_repository_path)
+    json_history_repository = JsonHistoryRepository(EnvConfig.get_json_history_repository())
     
     # Injecter CohereTextGenerator dans TextGeneratorAdapter
     infrastructure_adapter = InfrastructureAdapter(cohere_text_generator, json_history_repository)

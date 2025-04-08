@@ -1,11 +1,12 @@
 import subprocess
 import uvicorn
 import os
-
 from multiprocessing import Process
 
+from env_config import EnvConfig
+
 def run_uvicorn():
-    uvicorn.run("rest.api:rest_api", host="127.0.0.1", port=8000)
+    uvicorn.run("rest.api:rest_api", host=EnvConfig.get_api_host(), port=EnvConfig.get_api_port_int())
 
 def run_streamlit():
     # Construct the absolute path to Home.py

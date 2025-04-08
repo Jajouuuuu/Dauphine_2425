@@ -15,7 +15,7 @@ class GeneratorControllerAdapter(GeneratorControllerPort):
 
     def generate_message(self, prompt: str) -> str:
         role_msg = RoleMessage(role="user", message=prompt)
-        chat_history = ChatHistory(guid=None, history=[role_msg])
+        chat_history = ChatHistory(messages=[role_msg])
         return self.text_generation_service.get_generated_text(chat_history)
 
     def get_conversations(self) -> list[str]:

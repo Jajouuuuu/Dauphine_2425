@@ -11,6 +11,19 @@ class GeneratorRestAdapter:
     def __init__(self, controller: GeneratorControllerPort):
         self.controller = controller
         
+    async def get_generated_text(self, request: ChatRequest) -> JSONResponse:
+        """
+        Génére un texte à partir d'un prompt donné.
+        """
+        try:
+            generated_text = self.controller.generate_message(request.prompt)
+            return JSONResponse(
+                content={"generated_text": generated_text},
+                status_code=200
+            )
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+        
     async def get_all_conversations(self) -> JSONResponse:
         """
         Récupère toutes les conversations disponibles.
@@ -72,6 +85,7 @@ class GeneratorRestAdapter:
     
     def get_router(self) -> APIRouter:
         router = APIRouter()
+        router.post("/chat")(self.get_generated_text)
         router.get("/conversation")(self.get_all_conversations)
         router.post("/conversation")(self.create_conversation)
         router.get("/conversation/{conversation_guid}")(self.get_conversation)

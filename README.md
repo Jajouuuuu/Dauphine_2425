@@ -78,29 +78,13 @@ Feel free to play with Streamlit's widgets!
 
 Follow the steps below to set up your environment, run the provided scripts, and build your own API and graphical interface using Streamlit.
 
-### 1. Create a dotenv file
+### 1. Obtain a Cohere API Key
 
-At the root of the project, create a `.env` file that contains the following lines:
-
-```plaintext
-PYTHONPATH=.
-JSON_HISTORY_REPOSITORY={YOUR_CONVERSATION_PATH}
-```
-
-### 2. Obtain a Cohere API Key
-
+- At the root of the project, copy `.env.template` and rename it as `.env`.
 - Visit the [Cohere website](https://cohere.ai) and sign up for an API key.
-- Once obtained, store this API key in the `.env` file you created just before. 
+- Once obtained, store this API key in your copy of the `.env` file.
 
-`.env` should now look like this:
-
-```plaintext
-PYTHONPATH=.
-COHERE_API_KEY=your_api_key_here
-JSON_HISTORY_REPOSITORY={YOUR_CONVERSATION_PATH}
-```
-
-### 3. Play with Cohere through a FastAPI server
+### 2. Play with Cohere through a FastAPI server
 
 To start the FastAPI server, run the following command:
 
@@ -116,7 +100,7 @@ You can then try the chat endpoint using the "Try it out!" button and replacing 
 
 ![alt text](assets/img/swagger_chat_endpoint.png)
 
-### 4. Use Cohere within Streamlit
+### 3. Use Cohere within Streamlit
 
 At the root of this folder, ``main.py`` can be used to launch both the Streamlit and the FastAPI servers.
 
