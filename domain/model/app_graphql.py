@@ -2,9 +2,17 @@ from ariadne import gql, QueryType, make_executable_schema, graphql_sync
 from ariadne.explorer import ExplorerGraphiQL
 from flask import Flask, request, jsonify
 from neo4j import GraphDatabase
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+NEO4J_URI = os.getenv("NEO4J_URI")
+NEO4J_USER = os.getenv("NEO4J_USER")
+NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
 
 # Connexion Neo4j
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "sitn2425"))
+driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
 
 # Schéma GraphQL
 type_defs = gql("""
