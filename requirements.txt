@@ -3,6 +3,8 @@ python-dotenv
 uvicorn[standard]
 requests
 streamlit
+numpy
+Pillow
 
 ##For Cohere part we will need that
 cohere
