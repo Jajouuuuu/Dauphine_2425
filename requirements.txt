@@ -1,10 +1,15 @@
 ##First packages needed
-python-dotenv
+streamlit>=1.32.0
+pandas>=2.0.0
+cohere-python>=4.37
+python-dotenv>=1.0.0
+numpy>=1.24.0
 uvicorn[standard]
 requests
-streamlit
-numpy
 Pillow
+opencv-python-headless
+scikit-image
+scipy
 
 ##For Cohere part we will need that
 cohere

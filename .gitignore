@@ -172,6 +172,21 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+# Virtual Environment
+venv/
+ENV/
+env/
+.env
 
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project specific
+data/processed/*.json
+data/processed/games_chunks/
+*.gz
 .DS_Store
 Thumbs.db
