@@ -1,20 +1,3 @@
-[
-  {
-    "title": "The Boys S4",
-    "image": "the_boys.jpg",
-    "type": "Série",
-    "url": "https://www.primevideo.com/-/fr/detail/0SSV1CIYHPUKDFUE5JOYRDKF06/ref=atv_dp_season_select_s4"
-  },
-  {
-    "title": "Air",
-    "image": "air.jpg",
-    "type": "Film",
-    "url": "https://www.primevideo.com/-/fr/detail/AIR/0KNIUQ1DSYDUGL0G4Z41PXA1SB"
-  },
-  {
-    "title": "Shotgun Wedding",
-    "image": "shotgun_wedding.jpeg",
-    "type": "Film",
-    "url": "https://www.primevideo.com/-/fr/detail/Shotgun-Wedding/0H51VJ6W7DPNUPB1EPM5OTOFT9"
-  }
-]
+version https://git-lfs.github.com/spec/v1
+oid sha256:a422627169b6ade8c6a368b20943399634e75d9f3dace9a35917b29c45423263
+size 547
