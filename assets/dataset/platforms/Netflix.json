@@ -1,0 +1,21 @@
+[
+   {
+    "title": "Astérix et Obélix : Le Combat des chefs",
+    "image": "asterix_obelix.jpeg",
+    "type": "Série",
+     "url": "https://www.netflix.com/title/81316606"
+  },
+  {
+    "title": "Stranger Things S5",
+    "image": "stranger_things.jpg",
+    "type": "Série",
+    "url": "https://www.netflix.com/title/80057281"
+  },
+  {
+    "title": "The Killer",
+    "image": "the_killer.jpg",
+    "type": "Film",
+    "url": "https://www.netflix.com/title/80234448"
+  }
+]
+

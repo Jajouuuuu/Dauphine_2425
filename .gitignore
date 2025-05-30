@@ -180,6 +180,7 @@ env/
 
 # IDE
 .idea/
+.idea
 .vscode/
 *.swp
 *.swo
