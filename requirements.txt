@@ -1,9 +1,18 @@
 ##First packages needed
-python-dotenv
-uvicorn[standard]
-requests
-streamlit
+python-dotenv~=1.0.1
+uvicorn[standard]~=0.34.0
+requests~=2.32.3
+streamlit~=1.43.1
 
 ##For Cohere part we will need that
-cohere
-fastAPI
+cohere~=5.14.0
+fastAPI~=0.115.11
+langchain-cohere~=0.4.3
+langchain-core~=0.3.49
+langchain~=0.3.22
+langgraph~=0.3.21
+typing_extensions~=4.12.2
+pydantic~=2.10.6
+ariadne~=0.26.2
+Flask~=3.1.1
+neo4j
