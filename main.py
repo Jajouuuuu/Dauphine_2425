@@ -15,7 +15,7 @@ def run_uvicorn():
 
 def run_streamlit():
     # Construct the absolute path to Home.py
-    home_py_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'web_app/Home.py'))
+    home_py_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'web_app/home.py'))
     subprocess.run(["streamlit", "run", home_py_path])
 
 if __name__ == "__main__":

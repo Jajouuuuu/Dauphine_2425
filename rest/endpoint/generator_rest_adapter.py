@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 
 from rest.model.chat_request import ChatRequest
-from rest.model.conversation_reponse import ConversationResponse
+from rest.model.conversation_response import ConversationResponse
 
 from domain.port.driving.generator_controller_port import GeneratorControllerPort
 
