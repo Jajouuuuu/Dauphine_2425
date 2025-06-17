@@ -168,7 +168,7 @@ def render_top_navigation():
     
     with c2:
         if st.button("🏠 Home", key="top_nav_home", use_container_width=True):
-            st.switch_page("Home.py")
+            st.switch_page("home.py")
     
     with c3:
         if st.button("🎬 What's new ?", key="top_nav_platforms", use_container_width=True):
@@ -227,7 +227,7 @@ def create_page_navigation():
     
     with col1:
         if st.button("🏠 Home", key="nav_home", use_container_width=True):
-            st.switch_page("Home.py")
+            st.switch_page("home.py")
     
     with col2:
         if st.button("🎬 What's new ?", key="nav_platforms", use_container_width=True):
@@ -246,7 +246,7 @@ def create_floating_navigation():
     
     # Get current page name for highlighting active page
     try:
-        current_page = st.session_state.get('current_page', 'Home')
+        current_page = st.session_state.get('current_page', 'home')
     except:
         current_page = 'Home'
     
