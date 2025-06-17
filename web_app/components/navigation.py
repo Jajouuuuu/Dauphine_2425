@@ -163,8 +163,8 @@ def render_top_navigation():
     st.markdown(nav_html, unsafe_allow_html=True)
     
     # Create navigation buttons using Streamlit columns and buttons
-    # Use 6 columns to center the 4 buttons
-    c1, c2, c3, c4, c5, c6 = st.columns(6)
+    # Use 7 columns to center the 5 buttons
+    c1, c2, c3, c4, c5, c6, c7 = st.columns(7)
     
     with c2:
         if st.button("🏠 Home", key="top_nav_home", use_container_width=True):
@@ -179,7 +179,11 @@ def render_top_navigation():
             st.switch_page("pages/chat.py")
     
     with c5:
-        if st.button("👥 About us", key="top_nav_teams", use_container_width=True):
+        if st.button("👥 Community", key="top_nav_community", use_container_width=True):
+            st.switch_page("pages/Community.py")
+    
+    with c6:
+        if st.button("ℹ️ About us", key="top_nav_teams", use_container_width=True):
             st.switch_page("pages/about.py")
 
 
@@ -223,7 +227,7 @@ def create_page_navigation():
     """, unsafe_allow_html=True)
     
     # Create navigation buttons in columns
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3, col4, col5 = st.columns(5)
     
     with col1:
         if st.button("🏠 Home", key="nav_home", use_container_width=True):
@@ -238,7 +242,11 @@ def create_page_navigation():
             st.switch_page("pages/chat.py")
     
     with col4:
-        if st.button("👥 About us", key="nav_teams", use_container_width=True):
+        if st.button("👥 Community", key="nav_community", use_container_width=True):
+            st.switch_page("pages/Community.py")
+    
+    with col5:
+        if st.button("ℹ️ About us", key="nav_teams", use_container_width=True):
             st.switch_page("pages/about.py")
 
 def create_floating_navigation():

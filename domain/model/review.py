@@ -3,7 +3,6 @@ from typing import Optional
 from domain.model.content import Content
 from domain.model.user import User
 
-
 @dataclass
 class Review:
     id: str
