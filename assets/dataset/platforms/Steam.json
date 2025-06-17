@@ -1,3 +1,38 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6491799db69ee94d27e8713554ab0eb076328c9de4833f84e6d8f1044dfc406d
-size 988
+[
+  {
+    "title": "Hades II",
+    "image": "hades_2.webp",
+    "type": "Jeu",
+    "url": "https://store.steampowered.com/app/1145350/Hades_II/"
+  },
+  {
+    "title": "S.T.A.L.K.E.R. 2",
+    "image": "stalker_2.jpg",
+    "type": "Jeu",
+    "url": "https://store.steampowered.com/app/1643320/STALKER_2_Heart_of_Chornobyl/"
+  },
+  {
+    "title": "Monster Hunter Wilds",
+    "image": "monster_hunter_wilds.webp",
+    "type": "Jeu",
+    "url": "https://store.steampowered.com/app/2246340/Monster_Hunter_Wilds/"
+  },
+  {
+    "title": "Clair Obscur",
+    "image": "clair_obscur.jpeg",
+    "type": "Jeu",
+    "url": "https://store.steampowered.com/agecheck/app/1903340/"
+  },
+  {
+    "title": "Hell divers 2",
+    "image": "Helldivers.webp",
+    "type": "Jeu",
+    "url": "https://store.steampowered.com/agecheck/app/553850/"
+  },
+  {
+    "title": "Split Fiction",
+    "image": "split_fiction.jpg",
+    "type": "Jeu",
+    "url": "https://store.steampowered.com/app/2001120/Split_Fiction/"
+  }
+]

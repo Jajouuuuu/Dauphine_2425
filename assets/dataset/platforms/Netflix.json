@@ -1,3 +1,51 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6b508a681a3f018a71ef7ffcd22c3242a1fa3869d2b660de7f18fca1d741581c
-size 1239
+[
+  {
+    "title": "Lost In Startlight",
+    "image": "lost_in_starlight.jpg",
+    "type": "Film",
+    "url": "https://www.netflix.com/browse?jbv=81664623"
+  },
+  {
+    "title": "Devil May Cry",
+    "image": "devil_may_cry.jpg",
+    "type": "Série",
+     "url": "https://www.netflix.com/browse?jbv=81506915"
+  },
+  {
+    "title": "Stranger Things S5",
+    "image": "stranger_things.jpg",
+    "type": "Série",
+    "url": "https://www.netflix.com/title/80057281"
+  },
+  {
+    "title": "The Killer",
+    "image": "the_killer.jpg",
+    "type": "Film",
+    "url": "https://www.netflix.com/title/80234448"
+  },
+  {
+    "title": "Astérix et Obélix : Le Combat des chefs",
+    "image": "asterix_obelix.jpeg",
+    "type": "Série",
+     "url": "https://www.netflix.com/title/81316606"
+  },
+  {
+    "title": "Unforgettable",
+    "image": "unforgetable.jpg",
+    "type": "Film",
+    "url": "https://www.netflix.com/browse?jbv=80152156"
+  },
+  {
+    "title": "Fracture",
+    "image": "fracture.jpeg",
+    "type": "Film",
+    "url": "https://www.netflix.com/browse?jbv=70058016"
+  },
+  {
+    "title": "Ginny & Georgia",
+    "image": "ginny_and_georgia.jpg",
+    "type": "Série",
+    "url": "https://www.netflix.com/search?q=gin&jbv=81025696"
+  }
+]
+
