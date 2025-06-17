@@ -1,5 +1,9 @@
+from dataclasses import dataclass
+from typing import Optional
+
+@dataclass
 class Content:
-    def __init__(self, title, type_, platform):
-        self.title = title
-        self.type = type_
-        self.platform = platform
+    title: str
+    type_: str
+    platform: str
+    posterUrl: Optional[str] = None

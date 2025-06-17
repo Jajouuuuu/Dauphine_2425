@@ -3,6 +3,8 @@ import uvicorn
 import os
 import time
 import requests
+import sys
+import shutil
 from multiprocessing import Process
 
 from env_config import EnvConfig
@@ -11,9 +13,22 @@ def run_uvicorn():
     uvicorn.run("rest.api:rest_api", host=EnvConfig.get_api_host(), port=EnvConfig.get_api_port_int())
 
 def run_streamlit():
-    # Construct the absolute path to Home.py
     home_py_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'web_app/Home.py'))
-    subprocess.run(["streamlit", "run", home_py_path])
+    if not os.path.exists(home_py_path):
+        raise FileNotFoundError(f"❌ Fichier introuvable : {home_py_path}")
+
+    streamlit_executable = shutil.which("streamlit")
+    if not streamlit_executable:
+        possible_path = os.path.join(os.path.dirname(sys.executable), "Scripts", "streamlit.exe")
+        if os.path.exists(possible_path):
+            streamlit_executable = possible_path
+        else:
+            raise FileNotFoundError(
+                "❌ Impossible de trouver l'exécutable 'streamlit'. Vérifie ton environnement virtuel ou le PATH.")
+    if not streamlit_executable:
+        raise FileNotFoundError("❌ Impossible de trouver l'exécutable 'streamlit'. Assure-toi qu'il est installé et dans le PATH.")
+
+    subprocess.run([streamlit_executable, "run", home_py_path])
 
 def run_graphql_server():
     from interface.graphql.server import app
