@@ -100,7 +100,6 @@ def get_my_reviews(username):
     """
     variables = {"username": username}
     result = execute_query(query, variables)
-    print("DEBUG get_my_reviews:", result)  # <-- à garder temporairement
     return result.get("userReviews", [])
 
 
@@ -115,7 +114,6 @@ def get_all_content():
     }
     """
     result = execute_query(query)
-    print("DEBUG get_all_content result:", result)  # <-- ajoute ceci
     return [item["title"] for item in result.get("allContent", []) if item]
 
 
