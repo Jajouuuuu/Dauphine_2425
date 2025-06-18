@@ -259,105 +259,56 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Page title
-st.markdown('<h1 class="page-title">👥 Notre Équipe</h1>', unsafe_allow_html=True)
+# Move the project title to the very top, centered
+st.markdown('<h1 class="page-title">About Media Finder</h1>', unsafe_allow_html=True)
 
-# Project Overview Section
-st.markdown('<h2 class="section-title">À propos du projet</h2>', unsafe_allow_html=True)
+# Add more vertical space before the description
+st.markdown('<div style="height: 1.5rem;"></div>', unsafe_allow_html=True)
 
-st.markdown("""
-    <div class="project-section">
-        <h2>🎯 Vision du Projet</h2>
-        <p>Notre équipe a développé un système de recommandation intelligent alimenté par la technologie RAG, 
-        combinant la puissance des grands modèles de langage avec une base de données soigneusement organisée 
-        de films et de jeux vidéo.</p>
-        
-        <h3>🚀 Fonctionnalités Clés</h3>
-        <ul>
-            <li>Conversation intelligente sur les films et jeux vidéo</li>
-            <li>Recherche par similarité visuelle utilisant l'analyse d'affiches</li>
-            <li>Recommandations cross-média innovantes</li>
-            <li>Analyses détaillées et insights personnalisés</li>
-            <li>Interface utilisateur moderne et intuitive</li>
-        </ul>
-    </div>
-""", unsafe_allow_html=True)
+# Project description, centered and with more spacing
+st.markdown('''<div class="simple-section" style="text-align:center; margin-bottom:2.5rem;">
+    <p style="font-size:1.15rem; line-height:1.7; max-width:600px; margin:0 auto;">
+        <b>Media Finder</b> is a smart, AI-powered platform that helps you discover movies and games faster.<br>
+        It combines the power of Retrieval-Augmented Generation (RAG), computer vision, and a modern UI to centralize your entertainment choices and reviews in one place.
+    </p>
+</div>''', unsafe_allow_html=True)
 
-# Technology Stack
-st.markdown('<h2 class="section-title">💻 Notre Stack Technologique</h2>', unsafe_allow_html=True)
-st.markdown("""
-    <div class="tech-stack">
-        <span class="tech-item">🐍 Python</span>
-        <span class="tech-item">⚡ Streamlit</span>
-        <span class="tech-item">🤖 Cohere AI</span>
-        <span class="tech-item">🔍 RAG</span>
-        <span class="tech-item">👁️ Computer Vision</span>
-        <span class="tech-item">📝 NLP</span>
-        <span class="tech-item">🎨 Modern CSS</span>
-        <span class="tech-item">📊 Data Analysis</span>
-    </div>
-""", unsafe_allow_html=True)
+# Tech stack section with a clear header and more spacing
+st.markdown('<div class="simple-section" style="text-align:center;">', unsafe_allow_html=True)
+st.markdown('<h2 style="margin-bottom:1.5rem; color:#aab6ff; font-size:1.4rem;">Tech Stack</h2>', unsafe_allow_html=True)
+st.markdown('''<div class="tech-stack" style="justify-content:center; margin-bottom:1.5rem;">
+    <span class="tech-item">🐍 Python</span>
+    <span class="tech-item">⚡ Streamlit</span>
+    <span class="tech-item">🤖 Cohere AI</span>
+    <span class="tech-item">🔍 RAG</span>
+</div>''', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
 # Team members data
 team_members = [
     {
         "name": "Abdelhalim",
-        "role": "Lead AI Developer",
-        "description": "Expert en implémentation RAG et intégration de modèles d'IA. Spécialisé dans l'optimisation des performances et l'architecture des systèmes intelligents.",
-        "image": "https://api.dicebear.com/7.x/avataaars/svg?seed=Abdelhalim&backgroundColor=667eea"
+        "role": "Lead full-stack developer",
     },
     {
         "name": "Fabien",
-        "role": "Data Architect",
-        "description": "Maître du traitement de données et de l'architecture système. Responsable de l'optimisation des pipelines de données et des performances backend.",
-        "image": "https://api.dicebear.com/7.x/avataaars/svg?seed=Fabien&backgroundColor=764ba2"
+        "role": "Data engineer",
     },
     {
         "name": "Jeanne-Emma",
-        "role": "Full-Stack Designer",
-        "description": "Leader du design UI/UX et développement full-stack. Créatrice de l'interface moderne et responsable de l'expérience utilisateur exceptionnelle.",
-        "image": "https://api.dicebear.com/7.x/avataaars/svg?seed=JeanneEmma&backgroundColor=667eea"
+        "role": "AI developper",
     },
-    {
-        "name": "Leïla",
-        "role": "ML Specialist",
-        "description": "Experte en analyse de données et algorithmes de recommandation. Focus sur l'amélioration continue des modèles et la précision des suggestions.",
-        "image": "https://api.dicebear.com/7.x/avataaars/svg?seed=Leila&backgroundColor=764ba2"
-    }
 ]
 
 # Display team members
-st.markdown('<h2 class="section-title">🌟 Rencontrez l\'équipe</h2>', unsafe_allow_html=True)
+st.markdown('<h2 class="section-title">Our team</h2>', unsafe_allow_html=True)
 st.markdown('<div class="team-section">', unsafe_allow_html=True)
 for member in team_members:
     st.markdown(f"""
         <div class="team-member">
-            <img src="{member['image']}" alt="{member['name']}">
             <h3>{member['name']}</h3>
             <div class="role">{member['role']}</div>
-            <p>{member['description']}</p>
         </div>
     """, unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Project Journey
-st.markdown('<h2 class="section-title">🎯 Notre Parcours</h2>', unsafe_allow_html=True)
-st.markdown("""
-    <div class="project-section">
-        <h2>📈 Étapes Clés du Développement</h2>
-        <ul>
-            <li><strong>Phase 1:</strong> Recherche approfondie et planification stratégique</li>
-            <li><strong>Phase 2:</strong> Collecte et traitement intelligent des données</li>
-            <li><strong>Phase 3:</strong> Implémentation avancée du système RAG</li>
-            <li><strong>Phase 4:</strong> Développement UI/UX moderne et responsive</li>
-            <li><strong>Phase 5:</strong> Tests rigoureux et optimisation des performances</li>
-            <li><strong>Phase 6:</strong> Déploiement et amélioration continue</li>
-        </ul>
-        
-        <h3>🎖️ Réalisations</h3>
-        <p>En seulement quelques mois, notre équipe a créé une plateforme révolutionnaire qui transforme 
-        la façon dont les utilisateurs découvrent et interagissent avec le contenu multimédia. 
-        Notre approche innovante combine intelligence artificielle et design moderne pour offrir 
-        une expérience utilisateur sans précédent.</p>
-    </div>
-""", unsafe_allow_html=True)

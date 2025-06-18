@@ -222,6 +222,71 @@ st.markdown("""
                 padding: 1rem;
             }
         }
+
+        /* Glassmorphism for main content and right sidebar */
+        .stApp, .stContainer > div, .stSidebar, .stTabs, .review-card, .friend-card {
+            background: rgba(30, 34, 54, 0.7) !important;
+            backdrop-filter: blur(24px) !important;
+            border-radius: 18px !important;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18) !important;
+        }
+
+        /* Drop shadow for welcome title */
+        .welcome-title {
+            text-shadow: 0 4px 24px rgba(102, 126, 234, 0.25), 0 1.5px 0 #764ba2;
+            margin-bottom: 2.5rem !important;
+        }
+
+        /* Tab styling improvements */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 1.5rem;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.18) 0%, rgba(118, 75, 162, 0.18) 100%) !important;
+            border-radius: 30px !important;
+            padding: 0.7rem 1.2rem !important;
+            margin-bottom: 2.5rem !important;
+            box-shadow: 0 2px 12px rgba(102, 126, 234, 0.10);
+        }
+        .stTabs [data-baseweb="tab"] {
+            border-radius: 22px !important;
+            font-weight: 700 !important;
+            font-size: 1.1rem !important;
+            padding: 1.1rem 2.2rem !important;
+            color: rgba(255,255,255,0.8) !important;
+            transition: all 0.25s;
+        }
+        .stTabs [data-baseweb="tab"]:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%) !important;
+            color: #fff !important;
+        }
+        .stTabs [aria-selected="true"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: #fff !important;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.25) !important;
+        }
+
+        /* Friend/review card hover effect */
+        .friend-card, .review-card {
+            transition: transform 0.18s, box-shadow 0.18s;
+        }
+        .friend-card:hover, .review-card:hover {
+            transform: translateY(-4px) scale(1.025);
+            box-shadow: 0 12px 36px rgba(102, 126, 234, 0.18), 0 2px 8px rgba(0,0,0,0.10);
+            border-color: #764ba2 !important;
+        }
+
+        /* Modern spacing */
+        .stContainer > div, .review-card, .friend-card {
+            margin-bottom: 2.2rem !important;
+            padding: 2.1rem 2.2rem !important;
+        }
+
+        /* Remove navigation links (sidebar/page nav) */
+        [data-testid="stSidebarNav"],
+        [data-testid="stSidebarNavItems"],
+        [data-testid="stSidebarNavLinkContainer"],
+        [data-testid="stSidebarNavLink"] {
+            display: none !important;
+        }
     </style>
     """, unsafe_allow_html=True)
 
@@ -286,9 +351,9 @@ if not GRAPHQL_AVAILABLE:
     st.stop()
 
 with st.sidebar:
-    st.title("Profil & Amis")
+    st.title("Profile & Friends")
 
-    # Récupérer la liste des utilisateurs pour le sélecteur
+    # Retrieve the list of users for the selector
     try:
         all_users = get_all_users()
     except Exception as e:
@@ -299,27 +364,27 @@ with st.sidebar:
     if all_users:
         user_names = [user['name'] for user in all_users]
 
-        # Sélecteur d'utilisateur
+        # User selector
         selected_user = st.selectbox(
-            "👤 **Choisissez votre profil**",
+            "👤 **Choose your profile**",
             options=user_names,
             index=user_names.index(st.session_state.current_user) if st.session_state.current_user in user_names else 0,
             key="user_selector"
         )
-        # Mettre à jour l'utilisateur courant si le sélecteur change
+        # Update current user if selector changes
         if st.session_state.current_user != selected_user:
             st.session_state.current_user = selected_user
-            st.rerun()  # On rafraîchit toute la page
+            st.rerun()  # Refresh the whole page
 
     else:
-        st.warning("Aucun utilisateur trouvé dans la base de données.")
+        st.warning("No user found in the database.")
         st.info("💡 Run `python setup_neo4j.py` to create sample data")
-        st.stop()  # Arrête l'exécution si on ne peut rien afficher
+        st.stop()  # Stop execution if nothing can be displayed
 
     st.markdown("---")
 
-    # --- Section de gestion des amis ---
-    st.header("🤝 Mes Amis")
+    # --- Friends management section ---
+    st.header("🤝 My Friends")
 
     current_user_name = st.session_state.current_user
     
@@ -329,7 +394,7 @@ with st.sidebar:
         st.error(f"❌ Unable to load friends: {e}")
         my_friends = []
 
-    # Afficher les amis actuels avec un bouton de suppression
+    # Display current friends with a remove button
     for friend in my_friends:
         col1, col2, col3 = st.columns([1, 3, 2])
         with col1:
@@ -337,52 +402,52 @@ with st.sidebar:
         with col2:
             st.text(friend['name'])
         with col3:
-            if st.button("❌", key=f"remove_{friend['name']}", help=f"Retirer {friend['name']} de vos amis"):
+            if st.button("❌", key=f"remove_{friend['name']}", help=f"Remove {friend['name']} from your friends"):
                 try:
                     remove_friend(current_user_name, friend['name'])
-                    st.toast(f"{friend['name']} a été retiré(e) de vos amis.")
-                    st.cache_data.clear()  # Vider le cache pour rafraîchir la liste
+                    st.toast(f"{friend['name']} has been removed from your friends.")
+                    st.cache_data.clear()  # Clear cache to refresh the list
                     st.rerun()
                 except Exception as e:
                     st.error(f"❌ Error removing friend: {e}")
 
     st.markdown("---")
 
-    # Ajouter un nouvel ami
-    st.subheader("➕ Ajouter un ami")
+    # Add a new friend
+    st.subheader("➕ Add a friend")
     friend_names = [f['name'] for f in my_friends]
     available_to_add = [u['name'] for u in all_users if
                         u['name'] not in friend_names and u['name'] != current_user_name]
 
     if available_to_add:
-        friend_to_add = st.selectbox("Qui voulez-vous ajouter ?", available_to_add)
-        if st.button("Ajouter cet ami"):
+        friend_to_add = st.selectbox("Who do you want to add?", available_to_add)
+        if st.button("Add this friend"):
             try:
                 add_friend(current_user_name, friend_to_add)
-                st.toast(f"Vous êtes maintenant ami(e) avec {friend_to_add} !")
+                st.toast(f"You are now friends with {friend_to_add}!")
                 st.cache_data.clear()
                 st.rerun()
             except Exception as e:
                 st.error(f"❌ Error adding friend: {e}")
     else:
-        st.info("Tous les utilisateurs sont déjà vos amis !")
+        st.info("All users are already your friends!")
 
-# --- CORPS PRINCIPAL DE LA PAGE ---
-st.markdown(f'<h1 class="welcome-title">👥 Bienvenue, {st.session_state.current_user} !</h1>', unsafe_allow_html=True)
+# --- MAIN PAGE BODY ---
+st.markdown(f'<h1 class="welcome-title">👥 Welcome, {st.session_state.current_user}!</h1>', unsafe_allow_html=True)
 
 main_col, right_sidebar = st.columns([2.5, 1])
 
 with main_col:
-    # --- Création des onglets pour naviguer entre les vues ---
+    # --- Create tabs to navigate between views ---
     tab_friends, tab_my_reviews, tab_publish = st.tabs([
-        "👥 Activité des amis",
-        "📝 Mes avis",
-        "✍️ Publier un avis"
+        "👥 Friends' Activity",
+        "📝 My Reviews",
+        "✍️ Publish a Review"
     ])
 
-    # --- Onglet 1 : Fil d'actualité des amis ---
+    # --- Tab 1: Friends' activity feed ---
     with tab_friends:
-        st.header("Quoi de neuf chez vos amis ?")
+        st.header("What's new with your friends?")
         
         try:
             friend_reviews = get_friend_reviews(st.session_state.current_user)
@@ -391,7 +456,7 @@ with main_col:
             friend_reviews = []
             
         if not friend_reviews:
-            st.info("Vos amis sont bien silencieux... Soyez le premier à partager un avis ou ajoutez des amis !")
+            st.info("Your friends are very quiet... Be the first to share a review or add friends!")
         else:
             for item in friend_reviews:
                 review = item['review']
@@ -403,14 +468,14 @@ with main_col:
                     with col1:
                         st.image(friend['avatarUrl'], width=60, caption=friend['name'])
                     with col2:
-                        st.markdown(f"**{friend['name']}** a donné son avis sur **{content['title']}**")
-                        # Formater la date pour un affichage plus lisible
+                        st.markdown(f"**{friend['name']}** gave their review on **{content['title']}**")
+                        # Format the date for more readable display
                         date_obj = datetime.fromisoformat(review['createdAt'].replace('Z', '+00:00'))
                         st.caption(
-                            f"{date_obj.strftime('%d %b %Y à %H:%M')} · {content['type']} sur {content['platform']}")
+                            f"{date_obj.strftime('%d %b %Y at %H:%M')} · {content['type']} on {content['platform']}")
 
                     st.markdown(
-                        f"##### Note : {'⭐' * review['rating']}{'☆' * (10 - review['rating'])} ({review['rating']}/10)")
+                        f"##### Rating: {'⭐' * review['rating']}{'☆' * (10 - review['rating'])} ({review['rating']}/10)")
 
                     col_poster, col_comment = st.columns([1, 2])
                     if content['posterUrl']:
@@ -420,9 +485,9 @@ with main_col:
                     with col_comment:
                         st.markdown(f"> _{review['comment']}_")
 
-    # --- Onglet 2 : Gérer ses propres avis ---
+    # --- Tab 2: Manage your own reviews ---
     with tab_my_reviews:
-        st.header("Vos publications")
+        st.header("Your Publications")
         
         try:
             my_reviews = get_my_reviews(st.session_state.current_user)
@@ -431,32 +496,32 @@ with main_col:
             my_reviews = []
             
         if not my_reviews:
-            st.info("Vous n'avez encore publié aucun avis. Rendez-vous dans l'onglet 'Publier' !")
+            st.info("You haven't published any reviews yet. Go to the 'Publish' tab!")
         else:
             for review in my_reviews:
                 content = review['content']
                 with st.container(border=True):
                     col1, col2 = st.columns([4, 1])
                     with col1:
-                        st.subheader(f"Votre avis sur : {content['title']}")
-                        st.markdown(f"**Note : {'⭐' * review['rating']}{'☆' * (10 - review['rating'])}**")
+                        st.subheader(f"Your review on: {content['title']}")
+                        st.markdown(f"**Rating: {'⭐' * review['rating']}{'☆' * (10 - review['rating'])}**")
                         st.markdown(f"> {review['comment']}")
                     with col2:
                         st.image(content['posterUrl'], width=100)
-                        if st.button("🗑️ Supprimer", key=f"delete_{review['id']}", type="primary"):
+                        if st.button("🗑️ Delete", key=f"delete_{review['id']}", type="primary"):
                             try:
                                 delete_review(review['id'])
-                                st.toast("Avis supprimé !")
+                                st.toast("Review deleted!")
                                 st.cache_data.clear()
                                 st.rerun()
                             except Exception as e:
                                 st.error(f"❌ Error deleting review: {e}")
 
-    # --- Onglet 3 : Publier un nouvel avis ---
+    # --- Tab 3: Publish a new review ---
     with tab_publish:
-        st.header("Partagez votre opinion")
+        st.header("Share your opinion")
 
-        # Récupérer la liste des contenus pour le formulaire
+        # Retrieve the list of content for the form
         try:
             content_list = get_all_content()
         except Exception as e:
@@ -464,47 +529,47 @@ with main_col:
             content_list = []
 
         if not content_list:
-            st.warning("Aucun contenu à noter n'a été trouvé dans la base de données.")
+            st.warning("No content to rate was found in the database.")
             st.info("💡 Run `python setup_neo4j.py` to create sample content")
         else:
             with st.form("new_review_form"):
-                selected_content = st.selectbox("Quel contenu avez-vous consulté ?", content_list)
-                rating = st.slider("Votre note", 1, 10, 8)
-                comment = st.text_area("Votre avis", placeholder="Dites à vos amis ce que vous en avez pensé...")
+                selected_content = st.selectbox("Which content did you watch or play?", content_list)
+                rating = st.slider("Your rating", 1, 10, 8)
+                comment = st.text_area("Your review", placeholder="Tell your friends what you thought about it...")
 
-                submitted = st.form_submit_button("Publier mon avis")
+                submitted = st.form_submit_button("Publish my review")
 
                 if submitted:
                     if not comment:
-                        st.warning("Veuillez écrire un commentaire.")
+                        st.warning("Please write a comment.")
                     else:
                         try:
                             result = post_review(st.session_state.current_user, selected_content, rating, comment)
                             if result:
-                                st.success(f"Votre avis sur **{selected_content}** a été publié ! 🎉")
-                                # Vider le cache pour que le nouvel avis apparaisse immédiatement
+                                st.success(f"Your review on **{selected_content}** has been published! 🎉")
+                                # Clear cache so the new review appears immediately
                                 st.cache_data.clear()
                             else:
-                                st.error("Une erreur est survenue lors de la publication.")
+                                st.error("An error occurred while publishing.")
                         except Exception as e:
                             st.error(f"❌ Error posting review: {e}")
 
-# --- BARRE LATÉRALE DE DROITE : Tendances Mondiales (données en dur) ---
+# --- RIGHT SIDEBAR: Global Trends (hardcoded data) ---
 with right_sidebar:
-    st.header("🌍 Tendances Mondiales")
-    st.caption("Avis et scores issus de la presse spécialisée")
+    st.header("🌍 Global Trends")
+    st.caption("Reviews and scores from the specialized press")
 
     MOCK_GLOBAL_API_DATA = [
-        {"source": "IGN", "title": "Final Fantasy VII Rebirth", "snippet": "Un chef-d'œuvre, 9/10."},
-        {"source": "Rotten Tomatoes", "title": "Fallout (Série)",
-         "snippet": "Score de 94% - Une adaptation fidèle et inspirée."},
+        {"source": "IGN", "title": "Final Fantasy VII Rebirth", "snippet": "A masterpiece, 9/10."},
+        {"source": "Rotten Tomatoes", "title": "Fallout (Series)",
+         "snippet": "Score of 94% - A faithful and inspired adaptation."},
         {"source": "JeuxVideo.com", "title": "Dragon's Dogma 2",
-         "snippet": "Une aventure unique mais techniquement datée. 16/20."},
-        {"source": "Le Monde", "title": "Oppenheimer", "snippet": "Un biopic intense et spectaculaire."},
+         "snippet": "A unique adventure but technically dated. 16/20."},
+        {"source": "Le Monde", "title": "Oppenheimer", "snippet": "An intense and spectacular biopic."},
     ]
 
     for item in MOCK_GLOBAL_API_DATA:
         with st.container(border=True):
             st.markdown(f"**{item['title']}**")
             st.markdown(f"_{item['snippet']}_")
-            st.caption(f"Source : {item['source']}")
+            st.caption(f"Source: {item['source']}")

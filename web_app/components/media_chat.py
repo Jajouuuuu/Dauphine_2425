@@ -10,157 +10,6 @@ from typing import Optional, Dict, Any
 import json
 from pathlib import Path
 
-def create_media_chat_sidebar(rag_service, media_items: list = None):
-    """
-    Create a media/poster chat sidebar that allows users to start conversations
-    about specific media items.
-    
-    Args:
-        rag_service: The RAG service instance
-        media_items: List of media items to display (optional)
-    """
-    
-    # Custom CSS for the media chat sidebar
-    st.markdown("""
-    <style>
-    .media-chat-sidebar {
-        background: linear-gradient(135deg, rgba(15,15,35,0.95) 0%, rgba(26,26,46,0.95) 100%);
-        backdrop-filter: blur(20px);
-        border-radius: 15px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-        border: 1px solid rgba(102, 126, 234, 0.3);
-    }
-    
-    .media-item-card {
-        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-        border: 1px solid rgba(102, 126, 234, 0.3);
-        border-radius: 12px;
-        padding: 1rem;
-        margin-bottom: 1rem;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-    
-    .media-item-card:hover {
-        border-color: rgba(102, 126, 234, 0.6);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        transform: translateY(-2px);
-    }
-    
-    .media-title {
-        color: white;
-        font-size: 1rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        line-height: 1.3;
-    }
-    
-    .media-type {
-        color: rgba(102, 126, 234, 0.9);
-        font-size: 0.8rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 0.5rem;
-    }
-    
-    .media-description {
-        color: rgba(255,255,255,0.7);
-        font-size: 0.85rem;
-        line-height: 1.4;
-        margin-bottom: 1rem;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-    
-    .quick-chat-prompt {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
-        border: 1px solid rgba(102, 126, 234, 0.3);
-        border-radius: 8px;
-        padding: 0.5rem;
-        margin-bottom: 0.5rem;
-        color: rgba(255,255,255,0.8);
-        font-size: 0.8rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    
-    .quick-chat-prompt:hover {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
-        color: white;
-    }
-    
-    .chat-with-media-btn {
-        width: 100%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        padding: 0.6rem 1rem;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    
-    .chat-with-media-btn:hover {
-        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-    }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    with st.sidebar:
-        st.markdown("### 🎬 Chat avec les Médias")
-        
-        # If no specific media items provided, show featured/popular ones
-        if not media_items:
-            media_items = get_featured_media_items(rag_service)
-        
-        if media_items:
-            st.markdown('<div class="media-chat-sidebar">', unsafe_allow_html=True)
-            
-            for item in media_items[:5]:  # Show top 5 items
-                with st.container():
-                    # Media item card
-                    st.markdown(f"""
-                    <div class="media-item-card">
-                        <div class="media-type">{get_media_type_display(item.type)}</div>
-                        <div class="media-title">{item.title}</div>
-                        <div class="media-description">{item.description[:150]}...</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    
-                    # Quick chat prompts
-                    quick_prompts = get_quick_prompts(item)
-                    
-                    for i, prompt in enumerate(quick_prompts):
-                        if st.button(
-                            prompt, 
-                            key=f"quick_prompt_{item.id}_{i}",
-                            help=f"Commencer une conversation sur {item.title}"
-                        ):
-                            start_media_chat(item, prompt, rag_service)
-                    
-                    # Main chat button
-                    if st.button(
-                        f"💬 Discuter de {item.title}",
-                        key=f"chat_with_{item.id}",
-                        help=f"Ouvrir une conversation détaillée sur {item.title}"
-                    ):
-                        start_media_chat(item, f"Parle-moi de {item.title}", rag_service)
-                    
-                    st.markdown("---")
-            
-            st.markdown('</div>', unsafe_allow_html=True)
-        
-        else:
-            st.info("Aucun média disponible pour le chat. Chargez d'abord un dataset.")
-
 def get_featured_media_items(rag_service):
     """Get featured/popular media items for the sidebar"""
     try:
@@ -182,21 +31,21 @@ def get_featured_media_items(rag_service):
 
 def get_media_type_display(media_type: str) -> str:
     """Get display name for media type"""
-    return "🎬 Film" if media_type == "movie" else "🎮 Jeu"
+    return "🎬 Movie" if media_type == "movie" else "🎮 Game"
 
 def get_quick_prompts(item) -> list:
     """Generate quick chat prompts for a media item"""
     if item.type == "movie":
         return [
-            f"Recommande-moi des films comme {item.title}",
-            f"Analyse les thèmes de {item.title}",
-            f"Qui devrait regarder {item.title} ?"
+            f"Recommend me movies like {item.title}",
+            f"Analyze the themes of {item.title}",
+            f"Who should watch {item.title}?"
         ]
     else:  # game
         return [
-            f"Recommande-moi des jeux comme {item.title}",
-            f"Analyse le gameplay de {item.title}",
-            f"À qui s'adresse {item.title} ?"
+            f"Recommend me games like {item.title}",
+            f"Analyze the gameplay of {item.title}",
+            f"Who is {item.title} for?"
         ]
 
 def start_media_chat(item, prompt: str, rag_service):

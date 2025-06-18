@@ -12,7 +12,7 @@ from web_app.components.navigation import render_top_navigation, create_page_nav
 
 # Configure the page
 st.set_page_config(
-    page_title="Media Finder - Accueil",
+    page_title="Media Finder - Home",
     page_icon="🎬",
     layout="wide",
     initial_sidebar_state="collapsed"  # Hide sidebar for top navigation
@@ -192,15 +192,15 @@ st.markdown("""
     <div class="hero-content">
         <h1 class="hero-title">MEDIA FINDER</h1>
         <p class="hero-subtitle">
-            Découvrez l'avenir du streaming intelligent. Notre IA révolutionnaire vous aide à naviguer 
-            dans l'univers infini du cinéma et du gaming pour trouver exactement ce que vous cherchez.
+            Discover the future of smart streaming. Our revolutionary AI helps you navigate 
+            the infinite world of cinema and gaming to find exactly what you're looking for.
         </p>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 # Features section
-st.markdown("### ✨ Explorez nos fonctionnalités")
+st.markdown("### ✨ Start to explore our features")
 
 col1, col2, col3 = st.columns(3, gap="large")
 
@@ -208,47 +208,42 @@ with col1:
     st.markdown("""
     <div class="feature-card">
         <span class="feature-icon">🎬</span>
-        <h3 class="feature-title">Streaming Multi-Plateformes</h3>
-        <p class="feature-description">
-            Explorez Netflix, Amazon Prime, Disney+ et bien plus. 
-            Trouvez instantanément où regarder vos films préférés.
-        </p>
-    </div>
+            <h3 class="feature-title">Multi-platform streaming</h3>
+            <p class="feature-description">
+                Explore Netflix, Amazon Prime, Disney+, and more. 
+                Instantly find where to watch your favorite movies.
+            </p>
+</div>
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
     <div class="feature-card">
-        <span class="feature-icon">🤖</span>
-        <h3 class="feature-title">IA Conversationnelle</h3>
-        <p class="feature-description">
-            Chattez avec notre assistant intelligent pour des recommandations 
-            personnalisées basées sur vos goûts.
-        </p>
-    </div>
+    <span class="feature-icon">🤖</span>
+    <h3 class="feature-title">Conversational AI</h3>
+    <p class="feature-description">
+        Chat with our intelligent assistant for personalized recommendations 
+        based on your tastes.
+    </p>
+</div>
+
     """, unsafe_allow_html=True)
 
 with col3:
-    st.markdown("""
-    <div class="feature-card">
-        <span class="feature-icon">👥</span>
-        <h3 class="feature-title">Collaboration d'Équipe</h3>
-        <p class="feature-description">
-            Partagez vos découvertes avec votre équipe et explorez 
-            ensemble les dernières tendances.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
-# Call to action section
-st.markdown("""
-<div class="cta-section">
-    <h2 class="cta-title">🚀 Commencez votre exploration</h2>
-    <p style="color: rgba(255,255,255,0.8); font-size: 1.1rem; margin-bottom: 2rem;">
-        Choisissez votre adventure et laissez notre IA vous guider vers votre prochaine obsession.
+   st.markdown("""
+<div class="feature-card">
+    <span class="feature-icon">👥</span>
+    <h3 class="feature-title">Community</h3>
+    <p class="feature-description">
+        Share your discoveries with your community and explore 
+        the latest trends together.
     </p>
 </div>
+
 """, unsafe_allow_html=True)
+
+# Call to action section
+
 
 # Navigation buttons
 create_page_navigation()
@@ -256,6 +251,6 @@ create_page_navigation()
 # Footer
 st.markdown("""
 <div class="footer">
-    <p>Media Finder © 2024 - Propulsé par l'IA pour une expérience de streaming ulime</p>
+    <p>Media Finder © 2024 - Powered by AI for the ultimate streaming experience</p>
 </div>
 """, unsafe_allow_html=True)

@@ -1,9 +1,3 @@
-"""
-RAG System Configuration
-Adjust these settings to optimize performance for your use case.
-"""
-
-# Vector Database Settings
 VECTOR_DB_CONFIG = {
     "db_path": "./chroma_db",
     "collection_settings": {
@@ -105,16 +99,16 @@ def get_config(preset="balanced"):
 
 def print_config_info():
     """Print information about configuration options"""
-    print("🔧 RAG Configuration Options:")
+    print("RAG Configuration Options:")
     print("=" * 40)
-    print("\n📊 Available Presets:")
+    print("\nAvailable Presets:")
     for preset, config in PRESETS.items():
         print(f"   • {preset:15} - {config['text_model']} + {config['visual_model']}")
     
-    print(f"\n⚙️  Current Config: {CURRENT_CONFIG['text_model']} + {CURRENT_CONFIG['visual_model']}")
-    print(f"🔍 Text Search: {'✅' if CURRENT_CONFIG['enable_text_search'] else '❌'}")
-    print(f"🖼️  Visual Search: {'✅' if CURRENT_CONFIG['enable_visual_search'] else '❌'}")
-    print(f"💾 Vector DB: {VECTOR_DB_CONFIG['db_path']}")
+    print(f"\nCurrent Config: {CURRENT_CONFIG['text_model']} + {CURRENT_CONFIG['visual_model']}")
+    print(f"Text Search Enabled: {CURRENT_CONFIG['enable_text_search']}")
+    print(f"Visual Search Enabled: {CURRENT_CONFIG['enable_visual_search']}")
+    print(f"Vector DB: {VECTOR_DB_CONFIG['db_path']}")
     print()
     
     print("💡 Performance Tips:")

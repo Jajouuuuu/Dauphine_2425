@@ -5,7 +5,6 @@ from typing import Any, Optional
 from domain.port.file_storage import FileStoragePort
 
 class FileStorageAdapter(FileStoragePort):
-    """Concrete implementation of file storage following hexagonal architecture"""
     
     def __init__(self, base_path: str = "."):
         """Initialize the file storage adapter

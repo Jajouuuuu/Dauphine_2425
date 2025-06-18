@@ -1,76 +1,80 @@
-# TP Dauphine 24/25
+# Media Finder AI
 
-## Getting started
+Media Finder is an intelligent, AI-powered platform that helps you discover movies and games faster. It combines the power of Retrieval-Augmented Generation (RAG), computer vision, and a modern user interface to centralize your entertainment choices and reviews in one place.
 
-### Fork the project
+## 🚀 Getting Started
 
-Click on the "Fork" button at the top right of the page to create a copy of the repository under your own GitHub account.
+### 1. Prerequisites
+- Python 3.9+
+- An API key from [Cohere AI](https://cohere.ai)
 
-### Clone the Repository
+### 2. Installation
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/{your_username}/Dauphine_2425.git
+    cd Dauphine_2425
+    ```
 
-After forking the project, clone the repository to your local machine:
+2.  **Create and activate a virtual environment:**
+    ```bash
+    # For macOS/Linux
+    python3 -m venv venv
+    source venv/bin/activate
 
-1. Open your terminal and navigate to the directory where you want to store the project.
-2. Run the following command to clone the repository:
+    # For Windows
+    python -m venv venv
+    venv\Scripts\activate
+    ```
+
+3.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Set up your environment variables:**
+    - Create a `.env` file in the root of the project.
+    - Add your Cohere API key to it:
+      ```
+      COHERE_API_KEY="YOUR_API_KEY_HERE"
+      ```
+
+### 3. Running the Application
+To run the full application, including the Streamlit frontend and backend services, execute:
 ```bash
-git clone https://github.com/{your_username}/Dauphine_2425.git
+python main.py
 ```
+This script will:
+1.  Initialize the RAG system.
+2.  Pre-compute and index embeddings if they don't exist (this might take a few minutes on the first run).
+3.  Start the backend services.
+4.  Launch the Streamlit web application.
 
-## Installation
+Your browser should open to `http://localhost:8501`.
 
-Follow these steps to set up the project on your local machine:
+## 🏗️ Architecture Overview
 
-### 1: Create a Python Virtual Environment
+This project is built using a **Hexagonal (Ports and Adapters) Architecture** to ensure a clean separation of concerns between the core application logic, external services, and the user interface.
 
-Creating a virtual environment helps to manage dependencies and avoid conflicts with other projects:
+-   **`domain/`**: Contains the core business logic, models, and ports (interfaces). This layer is independent of any specific technology.
+-   **`application/`**: Orchestrates the domain logic and acts as a bridge to the infrastructure layer.
+-   **`infrastructure/`**: Contains concrete implementations (adapters) for external services like the vector database (ChromaDB), text generation (Cohere), and graph database (Neo4j).
+-   **`web_app/`**: The Streamlit user interface, which interacts with the application layer.
 
-```bash
-python3 -m venv {name_of_your_venv}
-```
-Or
-```bash
-python -m venv {name_of_your_venv}
-```
+### RAG System
+The Retrieval-Augmented Generation (RAG) system uses a combination of technologies:
+-   **Vector Database**: `ChromaDB` for storing and querying text and visual embeddings.
+-   **Text Embeddings**: `Sentence-Transformers` to convert media descriptions into vectors.
+-   **Visual Embeddings**: `CLIP` for understanding the content of movie/game posters.
+-   **Language Model**: `Cohere` for generating natural language responses based on retrieved context.
 
-### 2: Activate the virtual environment
+## 🔧 Scripts
 
-Activating your virtual environment ensures that the dependencies you install will only affect this project:
-
-on MacOS/Linux:
-
-```bash
-source {name_of_your_venv}/bin/activate
-```
-
-on Windows:
-
-```bash
-{name_of_your_venv}\Scripts\activate
-```
-
-You should see the name of your environment on the left of your terminal, indicating that it is active.
-
-### 3: Install the required dependencies
-
-Install the project's dependencies listed in the `requirements.txt` file:
-
-```bash
-pip install -r requirements.txt
-```
-
-This will install all the necessary packages to run the project. This may take a few minutes.
-
-### 4: Launch the frontend
-
-Ensure you are working within your activated Python environment to avoid issues. Launch the frontend of the project using Streamlit:
-
-```bash
-streamlit run ./web_app/Home.py
-```
-
-This command will start the Streamlit server, and a new tab will open in your web browser displaying the application.
-
-Feel free to play with Streamlit's widgets!
+-   **`scripts/split_data.py`**: Processes raw data into smaller, manageable chunks for faster loading and indexing.
+-   **`scripts/optimize_rag.py`**: Pre-computes and indexes all embeddings for the full dataset. Run this script once to ensure the best performance.
+    ```bash
+    python scripts/optimize_rag.py
+    ```
+-   **`setup_neo4j.py`**: (Optional) Sets up the Neo4j graph database with sample users, content, and reviews for the Community features.
 
 ---
 

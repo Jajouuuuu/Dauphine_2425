@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Data Splitting Script
-Splits large JSON files into smaller chunks for testing and development.
-"""
-
 import json
 import os
 from pathlib import Path
@@ -12,7 +6,7 @@ import math
 def split_json_file(input_file, output_dir, num_chunks=3):
     """Split a JSON file into multiple smaller files"""
     
-    print(f"📂 Processing {input_file}...")
+    print(f"Processing {input_file}...")
     
     # Read the original file
     with open(input_file, 'r', encoding='utf-8') as f:
@@ -26,14 +20,14 @@ def split_json_file(input_file, output_dir, num_chunks=3):
         items = data["games"]
         data_type = "games"
     else:
-        print(f"❌ Unknown data structure in {input_file}")
+        print(f"Unknown data structure in {input_file}")
         return
     
     total_items = len(items)
     chunk_size = math.ceil(total_items / num_chunks)
     
-    print(f"📊 Total {data_type}: {total_items:,}")
-    print(f"📦 Chunk size: ~{chunk_size:,} items each")
+    print(f"Total {data_type}: {total_items:,}")
+    print(f"Chunk size: ~{chunk_size:,} items each")
     
     # Create output directory
     output_path = Path(output_dir)
@@ -59,14 +53,14 @@ def split_json_file(input_file, output_dir, num_chunks=3):
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(chunk_data, f, indent=2, ensure_ascii=False)
         
-        print(f"✅ Saved {len(chunk_items):,} {data_type} to {output_file}")
+        print(f"Saved {len(chunk_items):,} {data_type} to {output_file}")
     
-    print(f"🎉 Split {input_file} into {num_chunks} parts!")
+    print(f"Split {input_file} into {num_chunks} parts!")
     print()
 
 def main():
     """Main splitting routine"""
-    print("📊 JSON Data Splitter")
+    print("JSON Data Splitter")
     print("=" * 30)
     print()
     
@@ -82,21 +76,21 @@ def main():
     
     if os.path.exists(movies_file):
         files_to_process.append(movies_file)
-        print(f"✅ Found: {movies_file}")
+        print(f"Found: {movies_file}")
     else:
-        print(f"⚠️  Not found: {movies_file}")
+        print(f"Not found: {movies_file}")
     
     if os.path.exists(games_file):
         files_to_process.append(games_file)
-        print(f"✅ Found: {games_file}")
+        print(f"Found: {games_file}")
     else:
-        print(f"⚠️  Not found: {games_file}")
+        print(f"Not found: {games_file}")
     
     if not files_to_process:
-        print("❌ No data files found to process!")
+        print("No data files found to process!")
         return
     
-    print(f"📁 Output directory: {output_dir}")
+    print(f"Output directory: {output_dir}")
     print()
     
     # Process each file
@@ -104,7 +98,7 @@ def main():
         split_json_file(file_path, output_dir, num_chunks=3)
     
     # Show results
-    print("📋 Summary:")
+    print("Summary:")
     print("=" * 20)
     
     chunk_files = list(Path(output_dir).glob("*.json"))
@@ -129,10 +123,10 @@ def main():
             print(f"📄 {chunk_file.name}: {count:,} {data_type} ({file_size:.1f}MB)")
             
         except Exception as e:
-            print(f"❌ Error reading {chunk_file}: {e}")
+            print(f"Error reading {chunk_file}: {e}")
     
     print()
-    print("🎯 Usage Instructions:")
+    print("Usage Instructions:")
     print("=" * 25)
     print("1. Use the chunk files to test your RAG system:")
     print(f"   - Movies: {output_dir}/movies_part1.json")
@@ -146,7 +140,7 @@ def main():
     print()
     print("3. When ready, use part2, part3, or original files")
     print()
-    print("🚀 Ready to test with smaller dataset!")
+    print("Ready to test with smaller dataset!")
 
 if __name__ == "__main__":
     main() 

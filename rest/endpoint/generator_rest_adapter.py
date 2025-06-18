@@ -6,14 +6,14 @@ from rest.model.conversation_response import ConversationResponse
 
 from domain.port.driving.generator_controller_port import GeneratorControllerPort
 
-# Adaptateur REST pour gérer les requêtes HTTP
+# REST adapter to handle HTTP requests
 class GeneratorRestAdapter:
     def __init__(self, controller: GeneratorControllerPort):
         self.controller = controller
         
     async def get_generated_text(self, request: ChatRequest) -> JSONResponse:
         """
-        Génére un texte à partir d'un prompt donné.
+        Generates text from a given prompt.
         """
         try:
             generated_text = self.controller.generate_message(request.prompt)
@@ -26,7 +26,7 @@ class GeneratorRestAdapter:
         
     async def get_all_conversations(self) -> JSONResponse:
         """
-        Récupère toutes les conversations disponibles.
+        Retrieves all available conversations.
         """
         try:
             conversations = self.controller.get_conversations()
@@ -39,7 +39,7 @@ class GeneratorRestAdapter:
     
     async def create_conversation(self) -> JSONResponse:
         """
-        Crée une nouvelle conversation et retourne son identifiant.
+        Creates a new conversation and returns its identifier.
         """
         try:
             conversation_id = self.controller.create_conversation()
@@ -52,7 +52,7 @@ class GeneratorRestAdapter:
     
     async def get_conversation(self, conversation_guid: str) -> ConversationResponse:
         """
-        Récupère l'historique d'une conversation spécifique.
+        Retrieves the history of a specific conversation.
         """
         conversation = self.controller.get_history(conversation_guid)
         if conversation is None:
@@ -62,7 +62,7 @@ class GeneratorRestAdapter:
 
     async def generate_message_for_conversation(self, conversation_guid: str, request: ChatRequest) -> ConversationResponse:
         """
-        Génère un message pour une conversation spécifique.
+        Generates a message for a specific conversation.
         """
         try:
             updated_conversation = self.controller.generate_message_in_conversation(conversation_guid, request.prompt)
@@ -72,7 +72,7 @@ class GeneratorRestAdapter:
         
     async def clear_conversation(self, conversation_guid: str) -> JSONResponse:
         """
-        Efface l'historique d'une conversation spécifique.
+        Clears the history of a specific conversation.
         """
         try:
             self.controller.clear_history(conversation_guid)

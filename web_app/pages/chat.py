@@ -15,7 +15,7 @@ sys.path.insert(0, str(project_root))
 
 # Import the navigation component
 from web_app.components.navigation import render_top_navigation
-from web_app.components.media_chat import create_media_chat_sidebar, render_media_chat_history
+from web_app.components.media_chat import render_media_chat_history
 
 # Import RAG service
 from application.rag_factory import create_rag_service
@@ -239,6 +239,23 @@ st.markdown("""
                 padding: 1rem;
             }
         }
+
+        /* Add CSS to hide the Streamlit sidebar and set chat input background */
+        [data-testid="stSidebar"],
+        [data-testid="stSidebarContent"],
+        [data-testid="stSidebarHeader"],
+        [data-testid="stSidebarCollapseButton"],
+        [data-testid="stSidebarNav"],
+        [data-testid="stSidebarNavItems"],
+        [data-testid="stSidebarNavLinkContainer"],
+        [data-testid="stSidebarNavLink"],
+        [data-testid="stSidebarUserContent"],
+        [data-testid="collapsedControl"] {
+            display: none !important;
+        }
+        [data-testid="stBottomBlockContainer"] {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -248,7 +265,7 @@ def initialize_chat_history():
         st.session_state.messages = [
             {
                 "role": "assistant", 
-                "content": "🎬🎮 Salut ! Je suis votre assistant IA pour films et jeux vidéo, propulsé par COHERE et un système RAG vectoriel. Posez-moi n'importe quelle question sur le cinéma ou le gaming !"
+                "content": "🎬🎮 Hi! I'm your AI assistant for movies and video games, powered by COHERE and a vector-based RAG system. Ask me anything about cinema or gaming!"
             }
         ]
 
@@ -267,23 +284,23 @@ def get_available_datasets():
                 datasets[f"📦 Chunk {i}/3"] = {
                     "movies": str(movies_chunk),
                     "games": str(games_chunk),
-                    "description": f"1/3 du dataset - chargement rapide"
+                    "description": f"1/3 of the dataset - fast loading"
                 }
     
     # Check for full datasets
     if os.path.exists("data/processed/movies.json") and os.path.exists("data/processed/games.json"):
-        datasets["🎯 Dataset Complet"] = {
+        datasets["🎯 Full Dataset"] = {
             "movies": "data/processed/movies.json",
             "games": "data/processed/games.json",
-            "description": "Dataset complet (plus lent au premier chargement)"
+            "description": "Full dataset (slower on first load)"
         }
     
     # Fallback if no data found
     if not datasets:
-        datasets["⚠️ Aucune Donnée"] = {
+        datasets["⚠️ No Data"] = {
             "movies": None,
             "games": None,
-            "description": "Exécutez 'python scripts/split_data.py' pour créer les chunks"
+            "description": "Run 'python scripts/split_data.py' to create the chunks"
         }
     
     return datasets
@@ -291,124 +308,115 @@ def get_available_datasets():
 def initialize_rag_service():
     """Initialize RAG service with status tracking"""
     if "rag_service" not in st.session_state:
-        
         # Show loading status
         status_placeholder = st.empty()
-        status_placeholder.markdown("""
+        status_placeholder.markdown(
+            """
             <div class="status-indicator loading">
-                🔄 Initialisation du système RAG en cours...
+                🔄 Initializing the RAG system...
             </div>
-        """, unsafe_allow_html=True)
-        
+            """, unsafe_allow_html=True)
         try:
-            # Get available datasets
             datasets = get_available_datasets()
-            
-            # Use part1 chunk by default for faster startup
             if "📦 Chunk 1/3" in datasets:
                 selected_dataset = datasets["📦 Chunk 1/3"]
                 dataset_name = "Chunk 1/3"
-            elif "🎯 Dataset Complet" in datasets:
-                selected_dataset = datasets["🎯 Dataset Complet"]
-                dataset_name = "Dataset Complet"
+            elif "🎯 Full Dataset" in datasets:
+                selected_dataset = datasets["🎯 Full Dataset"]
+                dataset_name = "Full Dataset"
             else:
-                status_placeholder.markdown("""
+                status_placeholder.markdown(
+                    """
                     <div class="status-indicator error">
-                        ❌ Aucun dataset trouvé ! Vérifiez vos fichiers de données.
+                        ❌ No dataset found! Check your data files.
                     </div>
-                """, unsafe_allow_html=True)
+                    """, unsafe_allow_html=True)
                 return False
-            
             if selected_dataset["movies"] and selected_dataset["games"]:
-                # Initialize repository
                 repository = JSONMediaRepository(
                     movies_path=selected_dataset["movies"],
                     games_path=selected_dataset["games"]
                 )
-                
-                # Create RAG service (text-only for faster startup)
                 st.session_state.rag_service = create_rag_service(
                     repository,
                     db_path="./chroma_db",
                     text_model="all-MiniLM-L6-v2",
-                    enable_visual=False,  # Disable visual for faster startup
-                    batch_size=32
+                    enable_visual=True,  # Enable visual for poster queries
+                    batch_size=32,
+                    ensure_index=False  # Prevent re-indexing in UI
                 )
-                
-                # Store dataset info
                 st.session_state.current_dataset = selected_dataset
                 st.session_state.dataset_name = dataset_name
-                
-                # Get stats
-                stats = st.session_state.rag_service.get_stats()
-                
-                # Show success status
-                status_placeholder.markdown(f"""
-                    <div class="status-indicator">
-                        ✅ Système RAG initialisé avec succès !<br>
-                        📊 Dataset: {dataset_name}<br>
-                        🔤 Embeddings texte: {stats['text_embeddings']:,}<br>
-                        🤖 Modèle: {stats['model']}<br>
-                        💾 Base: {stats['vector_db']}
-                    </div>
-                """, unsafe_allow_html=True)
-                
+                # Get stats (but do not show success indicator)
+                # stats = st.session_state.rag_service.get_stats()
+                status_placeholder.empty()  # Remove the status indicator
                 return True
             else:
-                status_placeholder.markdown("""
+                status_placeholder.markdown(
+                    """
                     <div class="status-indicator error">
-                        ❌ Fichiers de données manquants !
+                        ❌ Missing data files!
                     </div>
-                """, unsafe_allow_html=True)
+                    """, unsafe_allow_html=True)
                 return False
-                
         except Exception as e:
             status_placeholder.markdown(f"""
                 <div class="status-indicator error">
-                    ❌ Erreur lors de l'initialisation: {str(e)}
+                    ❌ Error during initialization: {str(e)}
                 </div>
             """, unsafe_allow_html=True)
             return False
-    
     return True
 
 def main():
     """Main chat application"""
     # Page title and subtitle
-    st.markdown('<h1 class="page-title">🤖 Assistant IA Films & Jeux</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="page-subtitle">Propulsé par COHERE et la technologie RAG - Votre expert personnel en divertissement</p>', unsafe_allow_html=True)
+    st.markdown('<h1 class="page-title">🤖 AI Assistant for Movies & Games</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="page-subtitle">Powered by COHERE and RAG technology - Your personal entertainment expert</p>', unsafe_allow_html=True)
 
     # Initialize services
     initialize_chat_history()
     rag_initialized = initialize_rag_service()
     
-    # Media chat sidebar (only if RAG is initialized)
-    if rag_initialized and "rag_service" in st.session_state:
-        create_media_chat_sidebar(st.session_state.rag_service)
-
     # Main content area
     if not rag_initialized or "rag_service" not in st.session_state:
-        st.warning("⚠️ Le système RAG n'est pas encore prêt. Veuillez patienter...")
+        st.warning("⚠️ The RAG system is not ready yet. Please wait...")
         return
+
+    # --- New: Image uploader for poster-based queries ---
+    uploaded_image = st.file_uploader(
+        "Upload a movie or game poster to ask about it:",
+        type=["jpg", "jpeg", "png"],
+        accept_multiple_files=False,
+        key="poster_uploader"
+    )
+    if uploaded_image:
+        with st.spinner("Analyzing poster and searching for similar media..."):
+            try:
+                response = st.session_state.rag_service.query_with_image(uploaded_image)
+                st.markdown("### Visual RAG Response:")
+                st.markdown(response)
+            except Exception as e:
+                st.error(f"Error analyzing image: {e}")
 
     # Welcome message for new users
     if len(st.session_state.messages) == 1:
         st.markdown("""
             <div class="welcome-message">
-                <h3>🌟 Bienvenue dans votre Assistant IA !</h3>
+                <h3>🌟 Welcome to your AI Assistant!</h3>
                 <p>
-                    Je suis là pour vous aider à découvrir votre prochain film ou jeu préféré. 
-                    Commencez par me dire ce que vous aimez ou posez-moi n'importe quelle question !
-                    Vous pouvez aussi utiliser la barre latérale pour discuter d'un média spécifique.
+                    I'm here to help you discover your next favorite movie or game.
+                    Start by telling me what you like or ask me any question!
+                    You can also upload a poster above to ask about a specific movie or game.
                 </p>
             </div>
         """, unsafe_allow_html=True)
 
     # Content type selector for text chat
-    st.markdown("### 🎯 Que souhaitez-vous explorer ?")
+    st.markdown("### 🎯 What would you like to explore?")
     content_type = st.radio(
-        "Choisissez le type de contenu:",
-        ["Films & Jeux", "Films uniquement", "Jeux uniquement"],
+        "Choose the type of content:",
+        ["Movies & Games", "Movies only", "Games only"],
         horizontal=True,
         key="content_type",
         label_visibility="collapsed"
@@ -424,27 +432,27 @@ def main():
                 st.markdown(message["content"])
 
     # Chat input
-    if prompt := st.chat_input("Posez-moi une question sur les films et jeux vidéo !"):
+    if prompt := st.chat_input("Ask me a question about movies and video games!"):
         # Add user message
         st.chat_message("user").markdown(prompt)
         st.session_state.messages.append({"role": "user", "content": prompt})
 
         # Get media type filter based on selection
         media_type = None
-        if content_type == "Films uniquement":
+        if content_type == "Movies only":
             media_type = "movie"
-        elif content_type == "Jeux uniquement":
+        elif content_type == "Games only":
             media_type = "game"
 
         # Get and display assistant response
         with st.chat_message("assistant"):
-            with st.spinner("Réflexion en cours..."):
+            with st.spinner("Thinking..."):
                 try:
                     response = st.session_state.rag_service.query_with_text(prompt, media_type=media_type)
                     st.markdown(response)
                     st.session_state.messages.append({"role": "assistant", "content": response})
                 except Exception as e:
-                    error_msg = f"Désolé, j'ai rencontré une erreur: {str(e)}"
+                    error_msg = f"Sorry, I encountered an error: {str(e)}"
                     st.error(error_msg)
                     st.session_state.messages.append({"role": "assistant", "content": error_msg})
 

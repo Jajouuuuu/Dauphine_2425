@@ -3,7 +3,6 @@ from typing import Any, Optional
 from domain.port.config_provider import ConfigProviderPort
 
 class ConfigAdapter(ConfigProviderPort):
-    """Concrete implementation of configuration provider following hexagonal architecture"""
     
     def __init__(self):
         """Initialize the configuration adapter"""

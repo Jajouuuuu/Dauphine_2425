@@ -13,14 +13,14 @@ from pathlib import Path
 
 def check_neo4j_installation():
     """Check if Neo4j is installed"""
-    print("🔍 Checking Neo4j installation...")
+    print("Checking Neo4j installation...")
     
     # Check if neo4j command is available
     try:
         result = subprocess.run(['neo4j', '--version'], 
                               capture_output=True, text=True, timeout=10)
         if result.returncode == 0:
-            print(f"✅ Neo4j found: {result.stdout.strip()}")
+            print(f"Neo4j found: {result.stdout.strip()}")
             return True
     except (subprocess.TimeoutExpired, FileNotFoundError):
         pass
@@ -30,21 +30,21 @@ def check_neo4j_installation():
         result = subprocess.run(['docker', '--version'], 
                               capture_output=True, text=True, timeout=10)
         if result.returncode == 0:
-            print(f"✅ Docker found: {result.stdout.strip()}")
+            print(f"Docker found: {result.stdout.strip()}")
             print("   Neo4j can be run in Docker container")
             return "docker"
     except (subprocess.TimeoutExpired, FileNotFoundError):
         pass
     
-    print("❌ Neo4j not found")
+    print("Neo4j not found")
     return False
 
 def install_neo4j_instructions():
     """Provide installation instructions"""
-    print("\n📋 Neo4j Installation Options:")
+    print("\nNeo4j Installation Options:")
     print("=" * 50)
     
-    print("\n🐳 Option 1: Docker (Recommended)")
+    print("\nOption 1: Docker (Recommended)")
     print("   1. Install Docker:")
     print("      sudo apt update && sudo apt install docker.io")
     print("      sudo systemctl start docker")
@@ -62,7 +62,7 @@ def install_neo4j_instructions():
     print("      Username: neo4j")
     print("      Password: password")
     
-    print("\n💾 Option 2: Direct Installation")
+    print("\nOption 2: Direct Installation")
     print("   1. Install Neo4j:")
     print("      wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -")
     print("      echo 'deb https://debian.neo4j.com stable latest' | sudo tee /etc/apt/sources.list.d/neo4j.list")
@@ -75,7 +75,7 @@ def install_neo4j_instructions():
 
 def start_neo4j_docker():
     """Start Neo4j using Docker"""
-    print("\n🐳 Starting Neo4j with Docker...")
+    print("\nStarting Neo4j with Docker...")
     
     # Check if container already exists
     try:
@@ -94,21 +94,21 @@ def start_neo4j_docker():
                 'neo4j:latest'
             ])
         
-        print("✅ Neo4j container started!")
+        print("Neo4j container started!")
         print("   Browser: http://localhost:7474")
         print("   Bolt: bolt://localhost:7687")
         print("   Username: neo4j")
         print("   Password: password")
         
     except Exception as e:
-        print(f"❌ Error starting Neo4j container: {e}")
+        print(f"Error starting Neo4j container: {e}")
         return False
     
     return True
 
 def test_neo4j_connection():
     """Test connection to Neo4j"""
-    print("\n🔗 Testing Neo4j connection...")
+    print("\nTesting Neo4j connection...")
     
     try:
         from neo4j import GraphDatabase
@@ -121,18 +121,18 @@ def test_neo4j_connection():
         with driver.session() as session:
             result = session.run("RETURN 'Hello Neo4j!' as message")
             message = result.single()["message"]
-            print(f"✅ Connection successful: {message}")
+            print(f"Connection successful: {message}")
         
         driver.close()
         return True
         
     except Exception as e:
-        print(f"❌ Connection failed: {e}")
+        print(f"Connection failed: {e}")
         return False
 
 def setup_sample_data():
     """Setup sample data for community features"""
-    print("\n📊 Setting up sample community data...")
+    print("\nSetting up sample community data...")
     
     try:
         from neo4j import GraphDatabase
@@ -177,32 +177,32 @@ def setup_sample_data():
             })-[:ABOUT]->(c)
             """)
             
-            print("✅ Sample data created successfully!")
+            print("Sample data created successfully!")
         
         driver.close()
         return True
         
     except Exception as e:
-        print(f"❌ Error setting up sample data: {e}")
+        print(f"Error setting up sample data: {e}")
         return False
 
 def main():
     """Main setup function"""
-    print("🎬 Neo4j Setup for Media Finder Community Features")
+    print("Neo4j Setup for Media Finder Community Features")
     print("=" * 60)
     
     # Check current installation
     neo4j_status = check_neo4j_installation()
     
     if neo4j_status is True:
-        print("✅ Neo4j is already installed!")
+        print("Neo4j is already installed!")
         if test_neo4j_connection():
             setup_sample_data()
         else:
-            print("⚠️  Neo4j is installed but not running or not configured properly")
+            print("Neo4j is installed but not running or not configured properly")
     
     elif neo4j_status == "docker":
-        print("\n🐳 Docker is available. Would you like to start Neo4j in Docker?")
+        print("\nDocker is available. Would you like to start Neo4j in Docker?")
         response = input("Start Neo4j container? (y/n): ").lower().strip()
         
         if response in ['y', 'yes']:
@@ -220,14 +220,14 @@ def main():
     else:
         install_neo4j_instructions()
     
-    print("\n🎯 Next Steps:")
+    print("\nNext Steps:")
     print("1. Ensure Neo4j is running on bolt://localhost:7687")
     print("2. Verify .env file contains:")
     print("   NEO4J_URI=bolt://localhost:7687")
     print("   NEO4J_USER=neo4j")
     print("   NEO4J_PASSWORD=password")
     print("3. Run: python main.py")
-    print("\n🌟 The Community page will be fully functional once Neo4j is running!")
+    print("\nThe Community page will be fully functional once Neo4j is running!")
 
 if __name__ == "__main__":
     main() 

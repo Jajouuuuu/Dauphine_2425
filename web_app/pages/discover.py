@@ -13,7 +13,7 @@ from web_app.components.navigation import render_top_navigation
 
 # Page configuration
 st.set_page_config(
-    page_title="Sorties Multi-Plateformes",
+    page_title="Latest releases",
     page_icon="🎬",
     layout="wide",
     initial_sidebar_state="collapsed"  # Hide sidebar for top navigation
@@ -279,6 +279,15 @@ st.markdown(
     .row-container {
         margin-bottom: 4rem;
     }
+
+    /* Footer */
+    .footer {
+        text-align: center;
+        color: rgba(255,255,255,0.6);
+        margin-top: 4rem;
+        padding: 2rem 0;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
     
     /* Responsive improvements */
     @media (max-width: 768px) {
@@ -298,12 +307,15 @@ st.markdown(
             padding-bottom: 45%;
         }
     }
+
+    [data-testid="stSidebar"] { display: none !important; }
+    [data-testid="collapsedControl"] { display: none !important; }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-st.title("🎬🎮 Dernières sorties par plateforme")
+st.title("🎬🎮 Latest realease")
 
 # Utility functions
 def load_data(platform_name):
@@ -384,3 +396,10 @@ for platform, accent_class in platforms:
     
     # Close row container
     st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown("""
+<div class="footer">
+    <p>Media Finder © 2024 - Powered by AI for the ultimate streaming experience</p>
+</div>
+""", unsafe_allow_html=True)
+

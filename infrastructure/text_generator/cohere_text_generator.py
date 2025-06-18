@@ -1,22 +1,35 @@
-import cohere
+from domain.port.driven.text_generator_port import TextGeneratorPort
+from cohere import Client
+from domain.model.role_message import RoleMessage
+from config.env_config import EnvConfig
 
-from domain.model.chat_history import ChatHistory
-
-from env_config import EnvConfig
-
-def to_chat_messages(chat_history: ChatHistory) -> list[dict]:
-    """Convertit l'historique de chat en une liste de dictionnaires avec le format attendu par Cohere."""   
-    return [{"role": msg.role, "content": msg.message} for msg in chat_history.messages]
-
-class CohereTextGenerator():
-    def __init__(self):
-        self.client = cohere.ClientV2(EnvConfig.get_cohere_api_key())
-
-    def generate_text(self, chat_history: ChatHistory) -> str:
-        # system_prompt = self.system_prompt_service.get_system_prompt()
-        
+class CohereTextGenerator(TextGeneratorPort):
+    """
+    Adapter for Cohere API.
+    """
+    def __init__(self, api_key: str = None):
+        """
+        Initialize the Cohere client.
+        If api_key is not provided, it will be fetched from environment variables.
+        """
+        self.api_key = api_key or EnvConfig.get_cohere_api_key()
+        self.client = Client(self.api_key)
+    
+    def generate_text(self, prompt: str) -> str:
+        """
+        Generate text using Cohere's chat model.
+        """
         response = self.client.chat(
-            model="command-r",
-            messages=to_chat_messages(chat_history)
+            message=prompt,
         )
-        return response.message.content[0].text # Retourne le texte généré par Cohere
+        return response.text
+    
+    def generate_text_with_history(self, prompt: str, history: list[RoleMessage]) -> str:
+        """
+        Generate text using Cohere's chat model with conversation history.
+        """
+        response = self.client.chat(
+            message=prompt,
+            chat_history=history
+        )
+        return response.text
