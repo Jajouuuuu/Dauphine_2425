@@ -1,0 +1,42 @@
+/* 
+  Definitive styles for the top navigation bar.
+  This is the single source of truth for navigation button appearance.
+*/
+
+/* --- Main Navigation Button Styles --- */
+div[data-testid="stHorizontalBlock"] div[data-testid="column"] div.stButton > button[key*="nav"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.8rem 2rem !important;
+    border-radius: 25px !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
+    transition: all 0.3s ease !important;
+    min-width: 140px !important;
+    height: 50px !important;
+    width: auto !important;
+}
+
+/* --- Hover State --- */
+div[data-testid="stHorizontalBlock"] div[data-testid="column"] div.stButton > button[key*="nav"]:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5) !important;
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%) !important;
+}
+
+/* --- Active (Click) State --- */
+div[data-testid="stHorizontalBlock"] div[data-testid="column"] div.stButton > button[key*="nav"]:active {
+    transform: translateY(0px) !important;
+}
+
+/* --- Mobile Responsive Styles --- */
+@media (max-width: 768px) {
+    div[data-testid="stHorizontalBlock"] div[data-testid="column"] div.stButton > button[key*="nav"] {
+        min-width: 100px !important;
+        max-width: 120px !important;
+        padding: 0.5rem 1rem !important;
+        font-size: 0.8rem !important;
+    }
+} 
