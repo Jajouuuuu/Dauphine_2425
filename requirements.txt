@@ -1,44 +1,46 @@
 ##First packages needed
-python-dotenv~=1.0.1
-uvicorn[standard]~=0.34.0
-requests~=2.32.3
-streamlit~=1.43.1
+python-dotenv
+uvicorn[standard]
+requests
+streamlit
 
 ##For Cohere part we will need that
-cohere~=5.14.0
-fastAPI~=0.115.11
-langchain-cohere~=0.4.3
-langchain-core~=0.3.49
-langchain~=0.3.22
-langgraph~=0.3.21
-typing_extensions~=4.12.2
-pydantic~=2.10.6
-ariadne~=0.26.2
-Flask~=3.1.1
+cohere
+fastAPI
+langchain-cohere
+langchain-core
+langchain
+langgraph
+typing_extensions
+pydantic
+ariadne
+Flask
 neo4j
 
-streamlit==1.32.0
-pandas==2.0.3
-python-dotenv==1.0.0
-numpy==1.24.4
-uvicorn[standard]==0.23.2
-requests==2.31.0
-Pillow==10.0.0
-opencv-python-headless==4.8.1.78
-scikit-image==0.21.0
-scipy==1.11.3
+streamlit
+pandas
+python-dotenv
+numpy
+uvicorn[standard]
+requests
+Pillow
+opencv-python-headless
+scikit-image
+scipy
 
 ##For Cohere part we will need that
-cohere==4.37
-fastapi==0.103.2
+cohere
+fastapi
 
 ##High-performance RAG and Vector Search
-faiss-cpu>=1.7.4
-chromadb>=0.4.15
+faiss-cpu
+chromadb
 sentence-transformers
 torch
 torchvision
-transformers>=4.35.0
-hnswlib>=0.7.0
-clip-by-openai>=1.0
-pytest>=7.4
+transformers
+hnswlib
+clip-by-openai
+pytest
+
+git+https://github.com/openai/CLIP.git
