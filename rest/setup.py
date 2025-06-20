@@ -25,12 +25,11 @@ def setup_generator_dependencies() -> GeneratorRestAdapter:
     
     historic_service = HistoricService(chat_history_repository)
     
-    chat_history_service = ChatHistoryService(historic_service)
+    chat_history_service = ChatHistoryService(chat_history_repository)
     
     text_generation_service = TextGenerationService(
         text_generator,
-        system_prompt_service,
-        chat_history_service
+        historic_service
     )
     
     generator_controller_adapter = GeneratorControllerAdapter(text_generation_service, chat_history_service)

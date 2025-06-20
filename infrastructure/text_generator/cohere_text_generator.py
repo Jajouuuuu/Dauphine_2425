@@ -1,3 +1,6 @@
+from typing import List
+
+from domain.model.chat_history import ChatHistory
 from domain.port.driven.text_generator_port import TextGeneratorPort
 from cohere import Client
 from domain.model.role_message import RoleMessage
@@ -33,3 +36,19 @@ class CohereTextGenerator(TextGeneratorPort):
             chat_history=history
         )
         return response.text
+    def get_generated_text(self, chat_history: ChatHistory) -> str:
+        """
+        Utilise l'historique de conversation pour générer une réponse via l'API Cohere.
+        Le dernier message utilisateur est utilisé comme prompt, le reste est envoyé en contexte.
+        """
+        messages: List[RoleMessage] = chat_history.messages
+
+        # On cherche le dernier message utilisateur comme prompt
+        last_user_message = next(
+            (m.message for m in reversed(messages) if m.role == "user"),
+            ""
+        )
+
+        # Envoi de l'historique complet en contexte
+        return self.generate_text_with_history(last_user_message, messages)
+

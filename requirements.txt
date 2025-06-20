@@ -42,4 +42,4 @@ transformers>=4.35.0
 hnswlib>=0.7.0
 clip-by-openai>=1.0
 pytest>=7.4
->>>>>>> poc_rag
+#poc_rag
