@@ -1,4 +1,6 @@
- <img src="assets/img/media_finder_logo.png" alt="Media Finder logo" width="120"/> Media Finder
+ <p align="center">
+  <img src="assets/img/media_finder_logo.png" alt="Media Finder logo" width="250"/> 
+</p>
 
 **Media Finder** is an AI-powered platform designed to help you discover movies and games more efficiently.
 It leverages Retrieval-Augmented Generation (RAG), computer vision for poster-based search, and a modern social interface to let you:
