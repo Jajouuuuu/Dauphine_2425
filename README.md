@@ -42,6 +42,54 @@ Once started, open [http://localhost:8501](http://localhost:8501) in your browse
 
   * Use `setup_neo4j.py` or your own Cypher scripts to seed the graph.
 
+## 🧠 Neo4j Database Initialization (.cypher)
+
+To make the application work correctly, the Neo4j database must be populated with a specific structure. Below is a list of required **nodes**, **relationships**, and **properties**.
+
+---
+
+### 📦 Node Types
+
+#### `User`
+Represents an application user.
+
+| Property     | Type   | Description                            |
+|--------------|--------|----------------------------------------|
+| `name`       | String | The user’s name (e.g., `"Alice"`)      |
+| `avatarUrl`  | String | URL to the user's profile picture      |
+
+#### `Content`
+Represents cultural content (movie, series, or video game).
+
+| Property     | Type   | Description                                       |
+|--------------|--------|---------------------------------------------------|
+| `title`      | String | Title of the content                              |
+| `type`       | String | `"movie"` / `"series"` / `"game"`                |
+| `platform`   | String | Platform (e.g., `"Netflix"`, `"PlayStation"`)     |
+| `posterUrl`  | String | URL to the poster image (displayed on homepage)  |
+
+#### `Review`
+Represents a review written by a user for a specific content.
+
+| Property     | Type     | Description                        |
+|--------------|----------|------------------------------------|
+| `rating`     | Integer  | Rating out of 10                   |
+| `comment`    | String   | User's comment                     |
+| `createdAt`  | DateTime | Timestamp of the review creation   |
+
+---
+
+### 🔗 Relationship Types
+
+#### `(:User)-[:FRIENDS_WITH]->(:User)`
+Defines a friendship between two users.
+
+#### `(:User)-[:WROTE]->(:Review)`
+Links a user to the review they wrote.
+
+#### `(:Review)-[:REVIEWS]->(:Content)`
+Links a review to the content it is about.
+
 ## 🏗️ Project hexagonal architecture
 
 ```
